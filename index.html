@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Gangway Remote Install</title>
+    <meta
+      name="description"
+      content="Install Gangway Remote on iPhone or Android."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #eef2f4;
+        --bg-grid: rgba(19, 26, 32, 0.05);
+        --surface: rgba(255, 255, 255, 0.84);
+        --surface-strong: #ffffff;
+        --text: #171b1f;
+        --text-soft: #5d6772;
+        --line: rgba(24, 31, 37, 0.1);
+        --shadow: 0 24px 60px rgba(24, 31, 37, 0.12);
+        --ios: #111111;
+        --android: #5b9a40;
+        --android-dark: #467930;
+        --chip: rgba(255, 255, 255, 0.68);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "IBM Plex Sans", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(91, 154, 64, 0.12), transparent 32%),
+          radial-gradient(circle at top right, rgba(17, 17, 17, 0.06), transparent 28%),
+          linear-gradient(180deg, #f7fafb 0%, var(--bg) 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(var(--bg-grid) 1px, transparent 1px),
+          linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.4), transparent 80%);
+      }
+
+      .shell {
+        width: min(1120px, calc(100vw - 32px));
+        margin: 0 auto;
+        padding: 28px 0 48px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+        gap: 20px;
+        align-items: stretch;
+      }
+
+      .panel,
+      .card {
+        background: var(--surface);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        box-shadow: var(--shadow);
+      }
+
+      .panel {
+        padding: 28px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: var(--chip);
+        border: 1px solid rgba(24, 31, 37, 0.08);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--text-soft);
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--android);
+        box-shadow: 0 0 0 6px rgba(91, 154, 64, 0.15);
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        font-family: "Space Grotesk", sans-serif;
+        letter-spacing: -0.04em;
+      }
+
+      h1 {
+        margin-top: 22px;
+        font-size: clamp(44px, 7vw, 74px);
+        line-height: 0.93;
+      }
+
+      .subtitle {
+        max-width: 56ch;
+        margin-top: 18px;
+        font-size: 18px;
+        line-height: 1.6;
+        color: var(--text-soft);
+      }
+
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .meta-chip {
+        padding: 11px 14px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.68);
+        border: 1px solid rgba(24, 31, 37, 0.08);
+        font-size: 14px;
+        color: var(--text-soft);
+      }
+
+      .install-card {
+        display: grid;
+        gap: 14px;
+        padding: 22px;
+      }
+
+      .install-card h2 {
+        font-size: 28px;
+      }
+
+      .install-card p {
+        margin: 0;
+        color: var(--text-soft);
+        line-height: 1.55;
+      }
+
+      .platform {
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        gap: 10px;
+        padding: 18px;
+        border-radius: 22px;
+        border: 1px solid var(--line);
+        text-decoration: none;
+        transition:
+          transform 140ms ease,
+          box-shadow 140ms ease,
+          border-color 140ms ease;
+      }
+
+      .platform:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 34px rgba(24, 31, 37, 0.12);
+      }
+
+      .platform h3 {
+        margin: 0;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 22px;
+      }
+
+      .platform small {
+        color: rgba(255, 255, 255, 0.74);
+        font-size: 13px;
+      }
+
+      .platform .hint {
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .platform.ios {
+        color: white;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent),
+          linear-gradient(135deg, #202326 0%, var(--ios) 100%);
+      }
+
+      .platform.android {
+        color: white;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent),
+          linear-gradient(135deg, var(--android) 0%, var(--android-dark) 100%);
+      }
+
+      .platform.disabled {
+        cursor: default;
+        opacity: 0.55;
+        box-shadow: none;
+      }
+
+      .platform.disabled:hover {
+        transform: none;
+      }
+
+      .grid {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+      }
+
+      .card {
+        padding: 22px;
+      }
+
+      .card h2 {
+        font-size: 24px;
+      }
+
+      .card p {
+        margin: 10px 0 0;
+        color: var(--text-soft);
+        line-height: 1.6;
+      }
+
+      .steps {
+        margin: 16px 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 10px;
+      }
+
+      .steps li {
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        gap: 12px;
+        align-items: start;
+      }
+
+      .steps strong {
+        display: inline-grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        background: rgba(91, 154, 64, 0.12);
+        color: var(--android-dark);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .footer {
+        margin-top: 18px;
+        color: var(--text-soft);
+        font-size: 13px;
+      }
+
+      .code {
+        margin-top: 12px;
+        padding: 12px 14px;
+        border-radius: 16px;
+        background: rgba(17, 17, 17, 0.94);
+        color: #f4f7f8;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 12px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      @media (max-width: 920px) {
+        .hero,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .shell {
+          width: min(720px, calc(100vw - 24px));
+          padding-top: 18px;
+        }
+
+        .panel,
+        .card {
+          border-radius: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div class="panel">
+          <div class="eyebrow">Gangway Remote</div>
+          <h1>Install the app on your phone.</h1>
+          <p class="subtitle">
+            Use the iPhone button for TestFlight, or the Android button for the
+            signed APK. This page is designed to sit behind one QR code for all
+            testers.
+          </p>
+          <div class="meta">
+            <div class="meta-chip">One QR code for iPhone and Android</div>
+            <div class="meta-chip">No public store release required</div>
+            <div class="meta-chip">Best for 1-2 testers</div>
+          </div>
+        </div>
+
+        <aside class="panel install-card">
+          <div>
+            <h2>Choose your device</h2>
+            <p>
+              Replace the placeholder links in this file before publishing the
+              page.
+            </p>
+          </div>
+
+          <a
+            id="ios-link"
+            class="platform ios"
+            href="#"
+            rel="noopener noreferrer"
+          >
+            <h3>Install on iPhone</h3>
+            <small>TestFlight</small>
+            <div class="hint">
+              Opens your TestFlight invitation link so testers can install the
+              native iPhone app.
+            </div>
+          </a>
+
+          <a
+            id="android-link"
+            class="platform android"
+            href="#"
+            rel="noopener noreferrer"
+          >
+            <h3>Install on Android</h3>
+            <small>Signed APK</small>
+            <div class="hint">
+              Downloads your signed Android build directly from your website or
+              file host.
+            </div>
+          </a>
+        </aside>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>How to use it</h2>
+          <ul class="steps">
+            <li>
+              <strong>1</strong>
+              <div>Upload this page to your website or GitHub Pages.</div>
+            </li>
+            <li>
+              <strong>2</strong>
+              <div>Set your real TestFlight and APK links in the script below.</div>
+            </li>
+            <li>
+              <strong>3</strong>
+              <div>Generate one QR code that points to this page.</div>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h2>Good hosting options</h2>
+          <p>
+            GitHub Pages, Netlify, Vercel, or your own domain all work well.
+            For Android, host the APK on the same site, on cloud storage, or on
+            GitHub Releases.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2>Update the links</h2>
+          <p>
+            Edit the two constants below before publishing. If a link is left
+            empty, its button becomes visually disabled.
+          </p>
+          <div class="code">const TESTFLIGHT_URL = 'https://testflight.apple.com/join/REPLACE_ME';
+const ANDROID_APK_URL = 'https://example.com/gangway-remote.apk';</div>
+        </article>
+      </section>
+
+      <p class="footer">
+        File path: <code>docs/install/index.html</code>
+      </p>
+    </main>
+
+    <script>
+      const TESTFLIGHT_URL = "https://testflight.apple.com/join/REPLACE_ME";
+      const ANDROID_APK_URL = "https://example.com/gangway-remote.apk";
+
+      function applyLink(id, href) {
+        const node = document.getElementById(id);
+        if (!node) return;
+
+        const empty =
+          !href ||
+          href.includes("REPLACE_ME") ||
+          href === "#" ||
+          href.includes("example.com");
+
+        if (empty) {
+          node.classList.add("disabled");
+          node.removeAttribute("href");
+          node.setAttribute("aria-disabled", "true");
+          return;
+        }
+
+        node.href = href;
+      }
+
+      applyLink("ios-link", TESTFLIGHT_URL);
+      applyLink("android-link", ANDROID_APK_URL);
+    </script>
+  </body>
+</html>

@@ -1,441 +1,618 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <title>Gangway Remote Install</title>
-    <meta
-      name="description"
-      content="Install Gangway Remote on iPhone or Android."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --bg: #eef2f4;
-        --bg-grid: rgba(19, 26, 32, 0.05);
-        --surface: rgba(255, 255, 255, 0.84);
-        --surface-strong: #ffffff;
-        --text: #171b1f;
-        --text-soft: #5d6772;
-        --line: rgba(24, 31, 37, 0.1);
-        --shadow: 0 24px 60px rgba(24, 31, 37, 0.12);
-        --ios: #111111;
-        --android: #5b9a40;
-        --android-dark: #467930;
-        --chip: rgba(255, 255, 255, 0.68);
-      }
 
-      * {
-        box-sizing: border-box;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Gangway Remote</title>
+  <meta name="description" content="Download Gangway Remote for iPhone or Android." />
+  <style>
+    :root {
+      --bg: #f3f3f0;
+      --surface: rgba(255, 255, 255, 0.72);
+      --surface-strong: rgba(255, 255, 255, 0.92);
+      --line: rgba(28, 28, 30, 0.08);
+      --line-strong: rgba(28, 28, 30, 0.14);
+      --text: #111111;
+      --text-soft: rgba(17, 17, 17, 0.62);
+      --shadow: 0 20px 60px rgba(17, 17, 17, 0.08);
+      --shadow-soft: 0 8px 24px rgba(17, 17, 17, 0.06);
+      --button: #111111;
+      --button-hover: #222222;
+      --button-text: #ffffff;
+    }
 
-      body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: "IBM Plex Sans", sans-serif;
-        color: var(--text);
-        background:
-          radial-gradient(circle at top left, rgba(91, 154, 64, 0.12), transparent 32%),
-          radial-gradient(circle at top right, rgba(17, 17, 17, 0.06), transparent 28%),
-          linear-gradient(180deg, #f7fafb 0%, var(--bg) 100%);
-      }
+    * {
+      box-sizing: border-box;
+    }
 
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background-image:
-          linear-gradient(var(--bg-grid) 1px, transparent 1px),
-          linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
-        background-size: 40px 40px;
-        mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.4), transparent 80%);
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Helvetica Neue",
+        sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), transparent 34%),
+        radial-gradient(circle at top right, rgba(0, 0, 0, 0.03), transparent 30%),
+        linear-gradient(180deg, #f7f7f5 0%, var(--bg) 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(17, 17, 17, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 17, 17, 0.03) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.45), transparent 78%);
+    }
+
+    .shell {
+      width: min(1120px, calc(100vw - 28px));
+      margin: 0 auto;
+      padding: 18px 0 40px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      align-items: stretch;
+    }
+
+    .panel,
+    .card {
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: var(--shadow);
+    }
+
+    .panel {
+      padding: 30px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid var(--line);
+      color: var(--text-soft);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #111111;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      margin-top: 20px;
+      max-width: 11ch;
+      font-size: clamp(50px, 8vw, 88px);
+      line-height: 0.92;
+      letter-spacing: -0.055em;
+      font-weight: 700;
+    }
+
+    .lead {
+      max-width: 40rem;
+      margin-top: 18px;
+      font-size: 19px;
+      line-height: 1.62;
+      color: var(--text-soft);
+    }
+
+    .hero-meta {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .meta-pill {
+      padding: 11px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+      color: var(--text-soft);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .install-panel {
+      display: grid;
+      gap: 16px;
+    }
+
+    .panel-head {
+      display: grid;
+      gap: 8px;
+    }
+
+    .panel-head h2 {
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .panel-head p {
+      color: var(--text-soft);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .platform {
+      position: relative;
+      display: grid;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+      padding: 22px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(250, 250, 248, 0.8));
+      box-shadow: var(--shadow-soft);
+      transition:
+        transform 140ms ease,
+        box-shadow 140ms ease,
+        border-color 140ms ease,
+        background 140ms ease;
+    }
+
+    .platform:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(17, 17, 17, 0.09);
+      border-color: var(--line-strong);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(252, 252, 250, 0.9));
+    }
+
+    .platform.disabled,
+    .platform.disabled:hover {
+      transform: none;
+      cursor: default;
+      opacity: 0.45;
+      box-shadow: none;
+    }
+
+    .platform-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .platform-mark {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: rgba(17, 17, 17, 0.06);
+      border: 1px solid rgba(17, 17, 17, 0.08);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .platform small {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .platform small::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(17, 17, 17, 0.25);
+    }
+
+    .platform h3 {
+      font-size: 28px;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .platform p {
+      color: var(--text-soft);
+      line-height: 1.58;
+      font-size: 15px;
+      max-width: 28ch;
+    }
+
+    .platform-cta {
+      margin-top: 2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 16px;
+      border-radius: 999px;
+      width: fit-content;
+      background: var(--button);
+      color: var(--button-text);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .platform-cta::after {
+      content: "↗";
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .platform.disabled .platform-cta {
+      background: rgba(17, 17, 17, 0.12);
+      color: rgba(17, 17, 17, 0.45);
+    }
+
+    .platform-note {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .stack {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      padding: 24px;
+    }
+
+    .card h2 {
+      font-size: 24px;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+    }
+
+    .card p {
+      margin-top: 10px;
+      color: var(--text-soft);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .steps {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 12px;
+      align-items: start;
+      color: var(--text-soft);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .step-index {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.86);
+      color: #111111;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .smart-card {
+      margin-top: 18px;
+      padding: 18px 20px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: var(--surface-strong);
+      box-shadow: var(--shadow-soft);
+      display: none;
+      gap: 10px;
+    }
+
+    .smart-card.active {
+      display: grid;
+    }
+
+    .smart-card strong {
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .smart-card p {
+      color: var(--text-soft);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .smart-card a {
+      margin-top: 2px;
+      width: fit-content;
+      text-decoration: none;
+      padding: 12px 15px;
+      border-radius: 999px;
+      background: #111111;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .footer {
+      margin-top: 14px;
+      color: rgba(17, 17, 17, 0.46);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .stack {
+        grid-template-columns: 1fr;
       }
 
       .shell {
-        width: min(1120px, calc(100vw - 32px));
-        margin: 0 auto;
-        padding: 28px 0 48px;
-      }
-
-      .hero {
-        display: grid;
-        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
-        gap: 20px;
-        align-items: stretch;
+        width: min(760px, calc(100vw - 22px));
+        padding-top: 12px;
       }
 
       .panel,
       .card {
-        background: var(--surface);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-        border: 1px solid var(--line);
-        border-radius: 28px;
-        box-shadow: var(--shadow);
+        border-radius: 26px;
       }
+    }
 
-      .panel {
-        padding: 28px;
-      }
-
-      .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 14px;
-        border-radius: 999px;
-        background: var(--chip);
-        border: 1px solid rgba(24, 31, 37, 0.08);
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: var(--text-soft);
-      }
-
-      .eyebrow::before {
-        content: "";
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
-        background: var(--android);
-        box-shadow: 0 0 0 6px rgba(91, 154, 64, 0.15);
-      }
-
-      h1,
-      h2 {
-        margin: 0;
-        font-family: "Space Grotesk", sans-serif;
-        letter-spacing: -0.04em;
-      }
-
-      h1 {
-        margin-top: 22px;
-        font-size: clamp(44px, 7vw, 74px);
-        line-height: 0.93;
-      }
-
-      .subtitle {
-        max-width: 56ch;
-        margin-top: 18px;
-        font-size: 18px;
-        line-height: 1.6;
-        color: var(--text-soft);
-      }
-
-      .meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 22px;
-      }
-
-      .meta-chip {
-        padding: 11px 14px;
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.68);
-        border: 1px solid rgba(24, 31, 37, 0.08);
-        font-size: 14px;
-        color: var(--text-soft);
-      }
-
-      .install-card {
-        display: grid;
-        gap: 14px;
-        padding: 22px;
-      }
-
-      .install-card h2 {
-        font-size: 28px;
-      }
-
-      .install-card p {
-        margin: 0;
-        color: var(--text-soft);
-        line-height: 1.55;
-      }
-
-      .platform {
-        position: relative;
-        overflow: hidden;
-        display: grid;
-        gap: 10px;
-        padding: 18px;
-        border-radius: 22px;
-        border: 1px solid var(--line);
-        text-decoration: none;
-        transition:
-          transform 140ms ease,
-          box-shadow 140ms ease,
-          border-color 140ms ease;
-      }
-
-      .platform:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 16px 34px rgba(24, 31, 37, 0.12);
-      }
-
-      .platform h3 {
-        margin: 0;
-        font-family: "Space Grotesk", sans-serif;
-        font-size: 22px;
-      }
-
-      .platform small {
-        color: rgba(255, 255, 255, 0.74);
-        font-size: 13px;
-      }
-
-      .platform .hint {
-        font-size: 14px;
-        line-height: 1.5;
-      }
-
-      .platform.ios {
-        color: white;
-        background:
-          linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent),
-          linear-gradient(135deg, #202326 0%, var(--ios) 100%);
-      }
-
-      .platform.android {
-        color: white;
-        background:
-          linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent),
-          linear-gradient(135deg, var(--android) 0%, var(--android-dark) 100%);
-      }
-
-      .platform.disabled {
-        cursor: default;
-        opacity: 0.55;
-        box-shadow: none;
-      }
-
-      .platform.disabled:hover {
-        transform: none;
-      }
-
-      .grid {
-        margin-top: 20px;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 20px;
-      }
-
+    @media (max-width: 620px) {
+      .panel,
       .card {
         padding: 22px;
       }
 
-      .card h2 {
+      h1 {
+        max-width: none;
+        font-size: clamp(42px, 13vw, 62px);
+      }
+
+      .lead {
+        font-size: 17px;
+      }
+
+      .platform h3 {
         font-size: 24px;
       }
+    }
+  </style>
+</head>
 
-      .card p {
-        margin: 10px 0 0;
-        color: var(--text-soft);
-        line-height: 1.6;
-      }
-
-      .steps {
-        margin: 16px 0 0;
-        padding: 0;
-        list-style: none;
-        display: grid;
-        gap: 10px;
-      }
-
-      .steps li {
-        display: grid;
-        grid-template-columns: 28px 1fr;
-        gap: 12px;
-        align-items: start;
-      }
-
-      .steps strong {
-        display: inline-grid;
-        place-items: center;
-        width: 28px;
-        height: 28px;
-        border-radius: 999px;
-        background: rgba(91, 154, 64, 0.12);
-        color: var(--android-dark);
-        font-size: 13px;
-        font-weight: 700;
-      }
-
-      .footer {
-        margin-top: 18px;
-        color: var(--text-soft);
-        font-size: 13px;
-      }
-
-      .code {
-        margin-top: 12px;
-        padding: 12px 14px;
-        border-radius: 16px;
-        background: rgba(17, 17, 17, 0.94);
-        color: #f4f7f8;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 12px;
-        line-height: 1.5;
-        white-space: pre-wrap;
-        word-break: break-word;
-      }
-
-      @media (max-width: 920px) {
-        .hero,
-        .grid {
-          grid-template-columns: 1fr;
-        }
-
-        .shell {
-          width: min(720px, calc(100vw - 24px));
-          padding-top: 18px;
-        }
-
-        .panel,
-        .card {
-          border-radius: 24px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <main class="shell">
-      <section class="hero">
-        <div class="panel">
-          <div class="eyebrow">Gangway Remote</div>
-          <h1>Install the app on your phone.</h1>
-          <p class="subtitle">
-            Use the iPhone button for TestFlight, or the Android button for the
-            signed APK. This page is designed to sit behind one QR code for all
-            testers.
-          </p>
-          <div class="meta">
-            <div class="meta-chip">One QR code for iPhone and Android</div>
-            <div class="meta-chip">No public store release required</div>
-            <div class="meta-chip">Best for 1-2 testers</div>
-          </div>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="panel">
+        <div class="eyebrow">Gangway Remote</div>
+        <h1>Download the app for your phone.</h1>
+        <p class="lead">
+          Choose your device below to install Gangway Remote. iPhone users install
+          through TestFlight. Android users download the latest app package
+          directly.
+        </p>
+        <div class="hero-meta">
+          <div class="meta-pill">Quick install</div>
+          <div class="meta-pill">iPhone and Android</div>
+          <div class="meta-pill">Private distribution</div>
         </div>
 
-        <aside class="panel install-card">
-          <div>
-            <h2>Choose your device</h2>
-            <p>
-              Android is ready now. iPhone via TestFlight will be added later.
-               
-            </p>
+        <div id="smart-card" class="smart-card" aria-live="polite">
+          <strong id="smart-label">Recommended</strong>
+          <p id="smart-copy"></p>
+          <a id="smart-link" href="#" rel="noopener noreferrer">Continue</a>
+        </div>
+      </div>
+
+      <aside class="panel install-panel">
+        <div class="panel-head">
+          <h2>Choose your device</h2>
+          <p>
+            If you are on iPhone, use TestFlight. If you are on Android, download
+            and install the Android app.
+          </p>
+        </div>
+
+        <a id="ios-link" class="platform" href="#" rel="noopener noreferrer">
+          <div class="platform-top">
+            <div>
+              <small>iPhone</small>
+              <h3>Install with TestFlight</h3>
+            </div>
+            <div class="platform-mark">iOS</div>
           </div>
-
-          <a
-            id="ios-link"
-            class="platform ios"
-            href="#"
-            rel="noopener noreferrer"
-          >
-            <h3>Install on iPhone</h3>
-            <small>TestFlight</small>
-            <div class="hint">
-              Opens your TestFlight invitation link so testers can install the
-              native iPhone app.
-            </div>
-          </a>
-
-          <a
-            id="android-link"
-            class="platform android"
-            href="#"
-            rel="noopener noreferrer"
-          >
-            <h3>Install on Android</h3>
-            <small>Signed APK</small>
-            <div class="hint">
-              Downloads the latest Android APK directly from this page.
-              
-            </div>
-          </a>
-        </aside>
-      </section>
-
-      <section class="grid">
-        <article class="card">
-          <h2>How to use it</h2>
-          <ul class="steps">
-            <li>
-              <strong>1</strong>
-              <div>Upload this page to your website or GitHub Pages.</div>
-            </li>
-            <li>
-              <strong>2</strong>
-              <div>Set your real TestFlight and APK links in the script below.</div>
-            </li>
-            <li>
-              <strong>3</strong>
-              <div>Generate one QR code that points to this  </div>
-            </li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h2>Good hosting options</h2>
           <p>
-            GitHub Pages, Netlify, Vercel, or your own domain all work well.
-            For Android, host the APK on the same site, on cloud storage, or on
-            GitHub Releases.
+            Opens the TestFlight invitation to install the iPhone version of
+            Gangway Remote.
           </p>
-        </article>
+          <div class="platform-cta">Open TestFlight</div>
+          <div class="platform-note">Apple will guide you through the installation.</div>
+        </a>
 
-        <article class="card">
-          <h2>Update the links</h2>
+        <a id="android-link" class="platform" href="#" rel="noopener noreferrer">
+          <div class="platform-top">
+            <div>
+              <small>Android</small>
+              <h3>Download Android App</h3>
+            </div>
+            <div class="platform-mark">APK</div>
+          </div>
           <p>
-            Edit the two constants below before publishing. If a link is left
-            empty, its button becomes visually disabled.
+            Downloads the latest Android installer for Gangway Remote directly to
+            your device.
           </p>
-          <div class="code">const TESTFLIGHT_URL = 'https://testflight.apple.com/join/REPLACE_ME';
-const ANDROID_APK_URL = './gangway-remote.apk';</div>
-        </article>
-      </section>
+          <div class="platform-cta">Download APK</div>
+          <div class="platform-note">You may need to allow installation from your browser.</div>
+        </a>
+      </aside>
+    </section>
 
-      <p class="footer">
-        File path: <code>docs/install/index.html</code>
-      </p>
-    </main>
+    <section class="stack">
+      <article class="card">
+        <h2>iPhone</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-index">1</div>
+            <div>Tap <strong>Open TestFlight</strong>.</div>
+          </div>
+          <div class="step">
+            <div class="step-index">2</div>
+            <div>If needed, install the TestFlight app from Apple.</div>
+          </div>
+          <div class="step">
+            <div class="step-index">3</div>
+            <div>Open the invitation and install Gangway Remote.</div>
+          </div>
+        </div>
+      </article>
 
-    <script>
-      const TESTFLIGHT_URL = "https://testflight.apple.com/join/REPLACE_ME";
-      const ANDROID_APK_URL = "./gangway-remote.apk";
+      <article class="card">
+        <h2>Android</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-index">1</div>
+            <div>Tap <strong>Download APK</strong>.</div>
+          </div>
+          <div class="step">
+            <div class="step-index">2</div>
+            <div>Open the downloaded file on your phone.</div>
+          </div>
+          <div class="step">
+            <div class="step-index">3</div>
+            <div>Approve the install if Android asks for permission.</div>
+          </div>
+        </div>
+      </article>
 
-      function applyLink(id, href) {
-        const node = document.getElementById(id);
-        if (!node) return;
+      <article class="card">
+        <h2>Need help?</h2>
+        <p>
+          If a button is unavailable, the install link has not been added yet. In
+          that case, contact the person who sent you this page.
+        </p>
+      </article>
+    </section>
 
-        const empty =
-          !href ||
-          href.includes("REPLACE_ME") ||
-          href === "#" ||
-          href.includes("example.com");
+    <p class="footer">Gangway Remote</p>
+  </main>
 
-        if (empty) {
-          node.classList.add("disabled");
-          node.removeAttribute("href");
-          node.setAttribute("aria-disabled", "true");
-          return;
-        }
+  <script>
+    const TESTFLIGHT_URL = "https://testflight.apple.com/join/REPLACE_ME";
+    const ANDROID_APK_URL = "./gangway-remote.apk";
 
-        node.href = href;
+    function applyLink(id, href) {
+      const node = document.getElementById(id);
+      if (!node) return false;
+
+      const empty =
+        !href ||
+        href.includes("REPLACE_ME") ||
+        href === "#" ||
+        href.includes("example.com");
+
+      if (empty) {
+        node.classList.add("disabled");
+        node.removeAttribute("href");
+        node.setAttribute("aria-disabled", "true");
+        return false;
       }
 
-      applyLink("ios-link", TESTFLIGHT_URL);
-      applyLink("android-link", ANDROID_APK_URL);
-    </script>
-  </body>
+      node.href = href;
+      return true;
+    }
+
+    function detectPlatform() {
+      const ua = navigator.userAgent || "";
+      if (/iPhone|iPad|iPod/i.test(ua)) return "ios";
+      if (/Android/i.test(ua)) return "android";
+      return "desktop";
+    }
+
+    function setRecommendedCard(platform, iosReady, androidReady) {
+      const card = document.getElementById("smart-card");
+      const label = document.getElementById("smart-label");
+      const copy = document.getElementById("smart-copy");
+      const link = document.getElementById("smart-link");
+
+      let href = "";
+      let button = "";
+      let text = "";
+
+      if (platform === "ios" && iosReady) {
+        label.textContent = "Recommended for your device";
+        text = "You are on an iPhone or iPad. Install Gangway Remote with TestFlight.";
+        button = "Open TestFlight";
+        href = TESTFLIGHT_URL;
+      } else if (platform === "android" && androidReady) {
+        label.textContent = "Recommended for your device";
+        text = "You are on Android. Download the latest Gangway Remote app package.";
+        button = "Download APK";
+        href = ANDROID_APK_URL;
+      } else if (iosReady || androidReady) {
+        label.textContent = "Choose your device";
+        text = "Select the installation method below for your phone.";
+        button = iosReady ? "Open iPhone Install" : "Open Android Install";
+        href = iosReady ? TESTFLIGHT_URL : ANDROID_APK_URL;
+      } else {
+        return;
+      }
+
+      copy.textContent = text;
+      link.textContent = button;
+      link.href = href;
+      card.classList.add("active");
+    }
+
+    const iosReady = applyLink("ios-link", TESTFLIGHT_URL);
+    const androidReady = applyLink("android-link", ANDROID_APK_URL);
+    setRecommendedCard(detectPlatform(), iosReady, androidReady);
+  </script>
+</body>
+
 </html>
